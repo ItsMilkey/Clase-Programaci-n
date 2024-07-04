@@ -1,127 +1,162 @@
+import csv
 import os
+import random
 import time
-espaciador = "\n"+("*"*34)+"\n"
-clean = "cls"
-cantidad_Kilos = 0
-camiones = 0
-camiones_servicio1 = 0
-capacidad = 450
-valor_Total= 0
-valor_servicio1=0
-validar_name=False
-cant_cilindro5=0
-cant_cilindro15=0
-cant_cilindro45=0
-multa1= 1700
-peso_15=0
-peso_45=0
-peso_5=0
-resto1=0
-resto2=0
-resto3=0
-
-os.system(clean)
-
-while True:
-    try:
-        name = input("Ingrese su nombre:\n ")
-        longitud_name=len(name)
-        if longitud_name>3:
-            validar_name=True
-            break
-        else:
-            print("Nombre inválido, ingrese un nombre mayor a 3 letras. ")
-            time.sleep(2)
-            validar_name=False
-    except ValueError:
-        print("Valores inválidos")
-while validar_name==True:
-    try:
-        telefono = (input("Ingrese su número telefónico:\n"))
-        longitud_telef=len(telefono)
-        if longitud_telef<=9 and longitud_telef>=8:
-            time.sleep(1)
-            os.system(clean)
-            break
-        elif longitud_telef<8 or longitud_telef>9:
-            print("Teléfono ingresado inválido.\n Intente nuevamente")
-            time.sleep(2)
-            os.system(clean)
-        else:
-            print("Caracteres inválidos, intente nuevamente.")
-            time.sleep(2)
-            os.system(clean)
-    except ValueError:
-        print("Ingrese valores correctos. ")
-
-while True:
-    try:
-        print(f"Menú de Servicios{espaciador}1. Entrega camión estándar. $765.000 por camión\n2. Carga específica\n3.Cerrar pedido (Imprimir boleta){espaciador}")
-        opc=int(input("Seleccione el producto que desee:\n"))
-        if opc==1:
-            os.system(clean)
-            print(f"{espaciador}Ha seleccionado la opción 1. Entrega de camión estándar.\n")
-            servicio1=int(input("Indique la cantidad de camiones que necesita: "))
+#saco5 = 0
+#saco10 = 0
+#saco20 = 0
+#cantidad_5 = 0
+#cantidad_10 = 0
+#cantidad_20 = 0
+dic_hojaruta = {
+     'San Bernardo': [],
+     'Calera de Tango': [],
+     'Buin': []
+}
+def nro_random():
+    nro_pedido = random.randint(1,1000)
+    nro_pedido += 1
+    return nro_pedido
+def limpieza():
+     time.sleep(0.5)
+     clean = 'cls'
+     os.system(clean)
+def datos():
+    cantidad_5 = 0
+    cantidad_10 = 0
+    cantidad_20 = 0
+    nombre = input("Nombre: ").capitalize()
+    apellido = input("Apellido: ").capitalize()
+    direccion = input("Dirección: ").capitalize()
+    while True:
+        try:
+            limpieza()
+            sector_opc = int(input("Sector:\n1) San Bernardo 2)Calera de Tango 3) Buin"))
+            if sector_opc == 1:
+                sector = 'San Bernardo'
+                break
+            elif sector_opc == 2:
+                sector = 'Calera de Tango'
+                break
+            elif sector_opc == 3:
+                sector = 'Buin'
+                break
+            else:
+                print("Elija opción entre 1-3")
+        except ValueError:
+            print("Ingrese solo valores numéricos.")
+    while True:
             try:
-                if servicio1>=1:
-                    camiones_servicio1 = servicio1
-                    peso_servicio1 = 450*camiones_servicio1
-                    valor_servicio1 = (camiones_servicio1*765000)
-                    print(f"¡Se han añadido {servicio1} camiones correctamente!\nVolviendo al menú{espaciador}")
-                    time.sleep(2)
-                    os.system(clean)
+                limpieza()
+                saco_opc = int(input("Seleccione el producto que desee:\n1) Saco 5kg\n2) Saco 10kg\n3) Saco 20kg\n4) Continuar\n"))
+                if saco_opc == 1:
+                    try:
+                        cantidad = int(input("Ingrese la cantidad deseada: "))
+                        cantidad_5 += cantidad
+                    except ValueError:
+                        print("Dígitos solamente")
+                elif saco_opc == 2:
+                    try:
+                        cantidad = int(input("Ingrese la cantidad deseada: "))
+                        cantidad_10 += cantidad
+                    except ValueError:
+                        print("Dígitos solamente")
+                elif saco_opc == 3:
+                    try:
+                        cantidad = int(input("Ingrese la cantidad deseada: "))
+                        cantidad_20 += cantidad
+                    except ValueError:
+                        print("Dígitos solamente.")
+                elif saco_opc == 4:
+                    break                       
             except ValueError:
-                print("Ingrese una cantidad válida.")
-        elif opc==2:
-            os.system(clean)
-            print(f"Ha seleccionado la opción 2. Entrega de carga específica.\n")
-            print(f"Tamaño de cilindros:{espaciador}1. Cilindro de 5 kilos\n2. Cilindro de 15 kilos\n3. Cilindro de 45 kilos.{espaciador}")
-            try:
-                
-                servicio2=int(input("Seleccione los cilindros que necesite:\n"))
-                if servicio2==1:
-                    os.system(clean)
-                    cant_cilindro5 = int(input("Indique la cantidad de cilindros de 5kg que desea: "))
-                    peso_5=(cant_cilindro5*5)
-                    resto1 = round(peso_5%capacidad)
-                    print(f"¡Ha añadido {cant_cilindro5} cilindros de 5kg correctamente!")
-                    time.sleep(1)
-                    os.system(clean)
-                elif servicio2==2:
-                    cant_cilindro15 = int(input("Indique la cantidad de cilindros de 15kg que desea: "))                    
-                    peso_15 = (cant_cilindro15*15)
-                    resto2 = round(peso_15%capacidad)
-                    print(f"¡Ha añadido {cant_cilindro15} cilindros de 15kg correctamente!")
-                    time.sleep(1)
-                    os.system(clean)
-                elif servicio2==3:
-                    cant_cilindro45 = int(input("Indique la cantidad de cilindros de 45kg que desea: "))
-                    peso_45 = (cant_cilindro45*45)
-                    resto3 = round(peso_45%capacidad)
-                    print(f"¡Ha añadido {cant_cilindro45} cilindros de 45kg correctamente!")
-                    time.sleep(1)
-                    os.system(clean)
-            except ValueError:
-                print("Seleccione una opción válida. ")
-        elif opc==3:
-            os.system(clean)
-            print(f"{espaciador}Saliendo del menú\n")
-            time.sleep(2)
-            os.system(clean)
-            break
-    except ValueError:
-        print("Seleccione una opción válida.")
-        time.sleep(2)
-        os.system(clean)
+                 print("Sólo valores numéricos.")
+    nro_pedido = nro_random()
+    if not nombre or not apellido or not direccion or not sector:
+         print("Los campos de nombre, apellido, dirección y sector son obligatorios.")
+         return None
+    print(f"Se ha añadido el pedido del cliente {nombre} {apellido}\nSe le asignó el Nroº de pedido: {nro_pedido}")
+    return nombre, apellido, direccion, sector, cantidad_5, cantidad_10, cantidad_20, nro_pedido
+                     
+def registrar(nombre, apellido, direccion, sector, cantidad_5, cantidad_10, cantidad_20, nro_pedido, archivo_csv='Pedidos.csv'):
+    with open(archivo_csv, 'a', newline='')as f:
+        campos = ['Nro. Pedido', 'Cliente', 'Dirección', 'Sector', 'Saco 5kg', 'Saco 10kg', 'Saco 20kg']
+        escritor = csv.DictWriter(f,fieldnames=campos)
+        if f.tell()==0:
+              escritor.writeheader()
+        escritor.writerow({
+             'Nro. Pedido': nro_pedido,
+             'Cliente': nombre+apellido,
+             'Dirección': direccion,
+             'Sector': sector,
+             'Saco 5kg': cantidad_5,
+             'Saco 10kg': cantidad_10,
+             'Saco 20kg': cantidad_20
+        })
+    dic_hojaruta[sector].append((nro_pedido,nombre+apellido,direccion,cantidad_5,cantidad_10,cantidad_20))
+    #ruta_txt()
 
-peso_servicio = (peso_5 + peso_45) + peso_15 + (peso_servicio1)
-camiones = round(peso_servicio/capacidad)
-resto = round(resto1+resto2+resto3)
-valor_del_resto = (resto*1700)+100000
-if peso_servicio > capacidad:
-    valor_Total = valor_del_resto+(765000*camiones)-765000+(valor_servicio1)
-elif peso_servicio < capacidad:
-    valor_Total=(peso_servicio*1700)+100000
+def listar_pedidos(archivo_csv='Pedidos.csv'):
+    if os.path.exists(archivo_csv):
+         with open(archivo_csv, 'r')as f:
+              lector = csv.DictReader(f)
+              for fila in lector:
+                   print(fila)
+    else:
+         print("No se encuentra el archivo")
+
+def ruta_txt(archivo_txt='Hoja_ruta.txt'): #no me acuerdo de como abrir txt
+     with open(archivo_txt,'w')as f:
+          #lineas = 
+          #escritor_txt = (lineas)
+         print("")
+         
+def leer_txt(archivo_txt='Hoja_ruta.txt'):
+    if os.path.exists(archivo_txt):
+        with open(archivo_txt, 'r') as f:
+            #lector_txt = readlines(f)
+            for sector, datos in dic_hojaruta.items():
+               print(f"Hoja de ruta del sector {sector}:\n")
+               nro_pedido,nombre,apellido,direccion,cantidad_5,cantidad_10,cantidad_20 = datos
+               for dato in datos:
+                    print(dato)
+                    print(f"    -Nroº de Pedido: {nro_pedido}, Cliente: {nombre} {apellido}, Dirección: {direccion}\nSacos 5kg: {cantidad_5}, Sacos 10kg: {cantidad_10}, Sacos 20kg: {cantidad_20}\n")
+
+def opcion1():
+    limpieza()
+    resultado = datos()
+    if resultado:
+        nro_pedido, nombre, apellido, direccion, sector, cantidad_5, cantidad_10,cantidad_20 = resultado
+        registrar(nro_pedido, nombre, apellido, direccion, sector, cantidad_5, cantidad_10, cantidad_20)
+def opcion3(archivo_csv='Pedidos.csv'):
+    limpieza()
+    if os.path.exists(archivo_csv):
+        with open(archivo_csv, 'r')as f:
+            lector = csv.DictReader(f)
+            for fila in lector:
+                print(fila)
+    else:
+        print("No se encuentra el archivo")
 
 
-print(f"{espaciador}Boleta\nCliente: {name}\nTeléfono: {telefono}\nCantidad de Kilos: {peso_servicio}\nCamiones: {camiones}\nValor Total: {valor_Total}{espaciador}")
+def menu_principal():
+    while True:
+        print("*************MENÚ PRINCIPAL*************\n1) Registrar pedido\n2) Listar todos los pedidos\n3) Imprimir hoja de ruta\n4) Salir del programa\n")
+        try:
+            opc = int(input("Seleccione un producto: "))
+            if opc == 1:
+                opcion1()
+            elif opc == 2:
+                limpieza()
+                listar_pedidos()
+            elif opc == 3:
+                opcion3()
+            elif opc == 4:
+                print("Datos guardados\nSaliendo del programa")
+                break
+            else:
+                print("Elija opción entre 1-4")
+        except ValueError:
+            print("Dato ingresado inválido, elija una opción correcta.")
+
+menu_principal()
